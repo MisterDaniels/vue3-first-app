@@ -1,0 +1,1 @@
+That's the first Vue3 app with [Vue Mastery](https://www.vuemastery.com) course
