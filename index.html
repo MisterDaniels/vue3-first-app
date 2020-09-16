@@ -17,36 +17,40 @@
         <div class="product-display">
             <div class="product-container">
                 <div class="product-image">
-                    <img :src="product.image" :alt="product.name">
+                    <img 
+                        :src="image" 
+                        :alt="product.name"
+                        :class="{ 'out-of-stock-img': !inStock }">
                 </div>
                 <div class="product-info">
-                    <h1>{{ product.name }}</h1>
-                    <p v-if="product.inventory > 10">In Stock</p>
-                    <p v-else-if="product.inventory <= 10 && product.inventory > 0">
+                    <h1>{{ title }}</h1>
+                    <p v-if="inStock > 10">In Stock</p>
+                    <p v-else-if="inStock <= 10 && inStock > 0">
                         Almost sold out!
                     </p>
                     <p v-else>Out of Stock</p>
-                    <p v-show="product.onSale">In Offer!</p>
+                    <p v-show="onSale">{{ title + ' is on sale' }}</p>
                     <ul>
                         <li v-for="detail in product.details">{{ detail }}</li>
                     </ul>
                     <div 
                         class="color-circle"
-                        v-for="variant in product.variants" 
+                        v-for="(variant, index) in product.variants" 
                         :key="variant.id" 
-                        @mouseover="updateImage(variant.image)"
+                        @mouseover="updateVariant(index)"
                         :style="{ backgroundColor: variant.color }">
                     </div>
                     <button 
                         class="button" 
+                        :class="{ disabledButton: !inStock }"
                         v-on:click="addToCart"
-                        :disabled="product.inventory <= 0">
+                        :disabled="!inStock">
                         Add to Cart
                     </button>
                     <button 
                         class="button" 
                         v-on:click="removeFromCart"
-                        :disabled="cart <= 0">
+                        :disabled="!cart">
                         Remove from Cart
                     </button>
                 </div>
